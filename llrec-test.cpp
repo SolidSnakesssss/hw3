@@ -66,30 +66,43 @@ void dealloc(Node* head)
 //   Add any helper functions or
 //   function object struct declarations
 // -----------------------------------------------
+struct Pred {
+    //Functor for filter
+    bool operator()(int value) const {
+        //Filter Test
+        return ((value % 2) == 0);
+    }
+};
 
-
-
-
-
-int main(int argc, char* argv[])
-{
-    if(argc < 2) {
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
         cout << "Please provide an input file" << endl;
         return 1;
     }
 
-    // -----------------------------------------------
-    // Feel free to update any code below this point
-    // -----------------------------------------------
+    //Read Input File
     Node* head = readList(argv[1]);
+    if (head == nullptr) {
+        cout << "Failed to read from file ya Bozo." << endl;
+        return 1;
+    }
+
+    //Print the original list
     cout << "Original list: ";
     print(head);
 
-    // Test out your linked list code
+    //Create Pred struct
+    Pred pred;
 
+    //Filter the linked-list
+    head = llfilter(head, pred);
 
+    //Display filtered linked-list
+    cout << "Filtered list (Numbers not divisible by 2): ";
+    print(head);
 
-    
+    //Deallocate memory
+    dealloc(head);
+
     return 0;
-
 }
