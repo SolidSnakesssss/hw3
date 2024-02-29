@@ -3,7 +3,7 @@
 #include <functional>
 #include <stdexcept>
 
-#include <vectors>
+#include <vector>
 
 template <typename T, typename PComparator = std::less<T> >
 class Heap
@@ -65,6 +65,7 @@ private:
   /// Add whatever helper functions and data members you need below
   std::vector<T> heapArray;
   int m; //m-aryness of the tree
+  PComparator c;
 
   void trickleUp(int index);
   void trickleDown(int index);
@@ -72,12 +73,11 @@ private:
 
 // Add implementation of member functions here
 
-//Default Constructor
 template <typename T, typename Comparator>
-Heap<T, Comparator>::Heap(int m = 2, PComparator = c = PComparator()) {};
+Heap<T, Comparator>::Heap(int m, Comparator c) : m(m), c(c) {}
 
 template <typename T, typename Comparator>
-Heap<T, Comparator>::Heap(int m, Comparator c) : m(m), comparator(c) {}
+Heap<T, Comparator>::~Heap() {}
 
 template <typename T, typename PComparator>
 void Heap<T, PComparator>::push(const T& item)
@@ -149,7 +149,7 @@ void Heap<T, PComparator>::trickleDown(int index) {
         // Find the index of the child with the highest priority
         for (int i = 0; i < m; ++i) {
             int childIndex = firstChildIndex + i;
-            if (childIndex < heapSize && comparator(heapArray[childIndex], heapArray[targetIndex])) {
+            if (childIndex < heapSize && c(heapArray[childIndex], heapArray[targetIndex])) {
                 targetIndex = childIndex;
             }
         }
@@ -168,18 +168,20 @@ void Heap<T, PComparator>::trickleDown(int index) {
 template <typename T, typename PComparator>
 void Heap<T, PComparator>::trickleUp(int index)
 {
-	if(index >= heapArray.size())
+  int size_ = heapArray.size();
+
+	if(index >= size_)
 	{
 		return;
 	}
 
-	int currentIndex = index;
+  int currentIndex = index;
 
 	while(currentIndex > 0)
 	{
 		int parentIndex = (currentIndex - 1) / m;
 
-		if(comparator(heapArray[currentIndex], heapArray[parentIndex]))
+		if(c(heapArray[currentIndex], heapArray[parentIndex]))
 		{
 			std::swap(heapArray[currentIndex], heapArray[parentIndex]);
 			currentIndex = parentIndex;
