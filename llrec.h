@@ -77,37 +77,6 @@ Node* llfilter(Node* head, Comp pred);
 // implement the above function now.
 //*****************************************************************************
 
-/*
-template <typename Comp>
-Node* llfilter(Node* head, Comp pred)
-{
-
-    //Base Case: Checks if head exists
-    if (head == nullptr) 
-    {
-        return nullptr;
-    }
-
-    //Filters out values that meets the requirements
-    while (head != nullptr && pred(head->val)) 
-    {
-        Node* temp = head;
-        head = head->next;
-        delete temp;
-    }
-
-    //Checks again if head exists after filter
-    if (head == nullptr) 
-    {
-        return nullptr;
-    }
-
-    //Recursively moves to the next value
-    head->next = llfilter(head->next, pred);
-
-    return head;
-}
-*/
 
 template <typename Comp>
 Node* llfilter(Node* head, Comp pred)
@@ -133,5 +102,6 @@ Node* llfilter(Node* head, Comp pred)
 
   return head;
 }
+
 
 #endif
